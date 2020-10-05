@@ -1,0 +1,41 @@
+{
+  "name": "nextjs-content-starter",
+  "version": "1.0.0",
+  "description": "A Next.js static site with MDX.",
+  "main": "index.js",
+  "author": "@steveruizok",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next-remote-watch ./content"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@mapbox/rehype-prism": "^0.5.0",
+    "@ngsctt/remark-smartypants": "^0.2.0",
+    "@state-designer/react": "^1.2.26",
+    "@stitches/react": "^0.0.2",
+    "gray-matter": "^4.0.2",
+    "lodash": "^4.17.20",
+    "next": "^9.5.2",
+    "next-mdx-remote": "^1.0.0",
+    "next-remote-watch": "^0.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-feather": "^2.0.8",
+    "react-no-ssr": "^1.1.0",
+    "reading-time": "^1.2.0",
+    "rehype-slug": "^3.0.0",
+    "remark-slug": "^6.0.0",
+    "stitches": "^1.2.11",
+    "string.prototype.matchall": "^4.0.2",
+    "swr": "^0.3.4"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.3",
+    "@types/node": "^14.10.1",
+    "@types/react": "^16.9.49",
+    "prettier": "^2.1.1",
+    "typescript": "^4.0.2"
+  }
+}
