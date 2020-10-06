@@ -54,7 +54,7 @@ function SubmitButton() {
     <IconButton
       onClick={() => state.send("SUBMITTED_SEARCH")}
       aria-label="Submit Search"
-      animation="fadeIn"
+      variant="fadeIn"
     >
       <ChevronRight size={20} />
     </IconButton>
@@ -188,7 +188,7 @@ const LoaderWrapper = styled.div({
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  opacity: 1,
+  opacity: 0,
   animation: ".25s ease-in 0s 1 forwards both running fadeIn",
   "& > *": {
     animation: "2s linear 0s infinite forwards both running rotate"

@@ -1,6 +1,7 @@
 import Head from "next/head"
 import Header from "./header"
 import Footer from "./footer"
+import useTransition from "./hooks/useTransition"
 import { FrontMatter } from "../types"
 
 type Props = Partial<FrontMatter> & {
@@ -15,6 +16,8 @@ export default function Layout({
   keywords,
   children
 }: Props) {
+  const ref = useTransition()
+
   return (
     <>
       <Head>
@@ -36,7 +39,7 @@ export default function Layout({
       <header>
         <Header />
       </header>
-      {children}
+      <main ref={ref}>{children}</main>
       <Footer />
     </>
   )

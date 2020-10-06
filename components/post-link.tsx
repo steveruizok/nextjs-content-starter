@@ -9,20 +9,22 @@ const LinkContainer = styled(BoxLink, {
   sm: {
     my: 0
   },
-  "&:hover h2": {
+  "&:hover > *": {
     color: "$accent",
     transform: "translateX(4px)"
+  },
+  "& > *": {
+    transition: "transform .2s"
   },
   "& h2": {
     pt: 0,
     fontSize: "$5",
-    my: 0,
-    transition: "transform .2s"
+    my: 0
   }
 })
 
 export default function PostLink(props: PostLite) {
-  const { title, status, url } = props
+  const { title, status, url, date, author } = props
 
   return (
     <li>
@@ -32,6 +34,14 @@ export default function PostLink(props: PostLite) {
             {title}
             {status === "draft" && "*"}
           </Heading2>
+          <Text variant="detail">
+            {author} •{" "}
+            {new Date(date).toLocaleDateString("en-us", {
+              month: "short",
+              day: "numeric",
+              year: "numeric"
+            })}
+          </Text>
         </LinkContainer>
       </Link>
     </li>

@@ -47,7 +47,7 @@ export const state = createState({
               do: "setInputValue",
               to: "enteringValue"
             },
-            SUBMITTED_SEARCH: {
+            SUBMITTED_QUERY: {
               do: ["setQuery", "navigateToSearchPage"],
               to: "hidingPredictions"
             }

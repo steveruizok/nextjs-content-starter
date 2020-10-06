@@ -1,4 +1,4 @@
-import { Title, A, styled } from "../theme"
+import { Text, Title, A, styled } from "../theme"
 import Link from "next/link"
 import MdxContent from "../mdx-content"
 import Layout from "../layout"
@@ -34,13 +34,23 @@ export default function PostLayout({
   frontMatter,
   headers
 }: PostWithMdx) {
-  const { title } = frontMatter
+  const { title, author, date } = frontMatter
 
   return (
     <Layout {...frontMatter}>
       <article>
         <header>
-          <Title>{title}</Title>
+          <Title>
+            {title}
+            <Text variant="detail">
+              {author} •{" "}
+              {new Date(date).toLocaleDateString("en-us", {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+              })}
+            </Text>
+          </Title>
         </header>
         <main>
           <MdxContent source={mdxSource} />

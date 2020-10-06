@@ -230,6 +230,13 @@ export const Text = styled("p", {
         lineHeight: 1,
         fontFamily: "$ui"
       },
+      attr: {
+        margin: 0,
+        lineHeight: 1.5,
+        fontSize: "$1",
+        fontFamily: "$ui",
+        color: "$muted"
+      },
       detail: {
         margin: 0,
         lineHeight: 1.5,
@@ -405,7 +412,7 @@ export const UnorderedList = styled("ul", {
   }
 })
 
-export const IconButton = styled(Button, {
+export const IconButton = styled.button({
   p: 0,
   height: 48,
   width: 48,
@@ -427,9 +434,10 @@ export const IconButton = styled(Button, {
     }
   },
   variants: {
-    animation: {
+    variant: {
       fadeIn: {
-        animation: ".25s ease-in 0s 1 forwards both running fadeIn"
+        opacity: 0,
+        animation: ".2s ease-in 0s 1 forwards both running fadeIn"
       }
     }
   }

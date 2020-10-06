@@ -1,18 +1,26 @@
 import matter from "gray-matter"
 import matchAll from "string.prototype.matchall"
 import slugger from "github-slugger"
-import { FrontMatter, PostHeader, Post } from "../types"
+import getReadingTime from "reading-time"
+import { FrontMatter, PostHeader, Post, ReadingTime } from "../types"
 
 matchAll.shim()
 
-const defaultFrontmatter: FrontMatter = {
+const defaultFrontmatter = {
   title: "Remember to add a title!",
   description: "Remember to add a description!",
   category: "general",
-  lastModified: 0,
+  date: "10 Jan 2020",
   order: 999,
   status: "draft",
-  keywords: [""]
+  author: "Steve",
+  readingTime: {
+    text: "1 min read",
+    minutes: 1,
+    time: 60000,
+    words: 200
+  },
+  keywords: []
 }
 
 /**
@@ -26,6 +34,7 @@ export default function getPostFromSource(
   lastModified: number
 ): Post {
   const { content, data } = matter(source)
+
   const fm = {
     ...defaultFrontmatter,
     ...data
@@ -42,13 +51,18 @@ export default function getPostFromSource(
     return [level, header, `${url}/#${id}`]
   })
 
+  const readingTime: ReadingTime = getReadingTime(content)
+
+  const date = Date.parse(fm.date)
+
   return {
     content,
     frontMatter: {
       ...fm,
       keywords: fm.keywords.map((keyword) => keyword.toLowerCase()),
       status: fm.status,
-      lastModified
+      date,
+      readingTime
     },
     headers,
     slug,

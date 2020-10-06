@@ -1,11 +1,20 @@
+export interface ReadingTime {
+  text: string
+  minutes: number
+  time: number
+  words: number
+}
+
 export interface FrontMatter {
   title: string
-  lastModified: number
+  date: number
   description: string
   category: string
   status: string
   order: number
   keywords: string[]
+  readingTime: ReadingTime
+  author: string
 }
 
 export interface PostLite {
@@ -14,6 +23,9 @@ export interface PostLite {
   status: string
   terms: string[]
   url: string
+  readingTime: ReadingTime
+  date: number
+  author: string
 }
 
 export interface PostsByCategory {

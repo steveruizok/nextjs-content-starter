@@ -17,7 +17,7 @@ export default function SearchPreview() {
       {local.isIn("searched") && predictions.length === 0 && (
         <Text>No results.</Text>
       )}
-      {local.isIn("searched") && (
+      {local.isInAny("searched", "loading") && (
         <ol>
           {local.data.predictions.map((result, i) => (
             <li key={i}>

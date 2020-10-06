@@ -1,7 +1,10 @@
+// @ts-check
+
 const fs = require("fs")
 const path = require("path")
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants")
 const matter = require("gray-matter")
+const getReadingTime = require("reading-time")
 
 function getPostList() {
   const root = process.cwd()
@@ -11,9 +14,16 @@ function getPostList() {
     title: "Remember to add a title!",
     description: "Remember to add a description!",
     category: "general",
-    lastModified: 0,
+    date: "10 Jan 2021",
     order: 999,
     status: "draft",
+    author: "Steve",
+    readingTime: {
+      text: "1 min read",
+      minutes: 1,
+      time: 60000,
+      words: 200
+    },
     keywords: []
   }
 
@@ -24,9 +34,14 @@ function getPostList() {
       const filePath = path.join(contentRoot, file)
       const source = fs.readFileSync(filePath, "utf8")
       const slug = file.replace(/\.mdx/, "")
-      const { data } = matter(source)
 
-      const { title, category, keywords, status } = {
+      const url = "/posts/" + slug
+
+      const { content, data } = matter(source)
+
+      const readingTime = getReadingTime(content)
+
+      const { title, category, keywords, status, date, author } = {
         ...defaultFrontmatter,
         ...data
       }
@@ -36,14 +51,15 @@ function getPostList() {
         ...keywords
       ].map((term) => term.toLowerCase())
 
-      const url = "/posts/" + slug
-
       return {
         title,
         category,
         status,
         terms,
-        url
+        url,
+        author,
+        date: Date.parse(date),
+        readingTime
       }
     })
 }
