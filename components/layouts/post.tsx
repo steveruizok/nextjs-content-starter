@@ -1,9 +1,8 @@
-import { Title, Text, Divider, A, styled } from "../theme"
+import { Title, A, styled } from "../theme"
 import Link from "next/link"
 import MdxContent from "../mdx-content"
 import Layout from "../layout"
 import { PostWithMdx } from "../../types"
-import Footer from "../footer"
 
 const HeadersList = styled.div({
   position: "fixed",
@@ -58,7 +57,6 @@ export default function PostLayout({
           </ol>
         </HeadersList>
       </article>
-      <Footer />
     </Layout>
   )
 }

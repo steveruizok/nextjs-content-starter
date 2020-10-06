@@ -1,6 +1,6 @@
-import { Divider } from "./theme"
 import Head from "next/head"
 import Header from "./header"
+import Footer from "./footer"
 import { FrontMatter } from "../types"
 
 type Props = Partial<FrontMatter> & {
@@ -37,6 +37,7 @@ export default function Layout({
         <Header />
       </header>
       {children}
+      <Footer />
     </>
   )
 }

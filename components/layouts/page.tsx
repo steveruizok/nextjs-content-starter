@@ -1,7 +1,6 @@
 import { Title } from "../theme"
 import MdxContent from "../mdx-content"
 import Layout from "../layout"
-import Footer from "../footer"
 import { PostWithMdx } from "../../types"
 
 export default function PageLayout({ mdxSource, frontMatter }: PostWithMdx) {
@@ -17,7 +16,6 @@ export default function PageLayout({ mdxSource, frontMatter }: PostWithMdx) {
           <MdxContent source={mdxSource} />
         </main>
       </article>
-      <Footer />
     </Layout>
   )
 }

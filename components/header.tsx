@@ -1,12 +1,14 @@
 import useTheme from "./hooks/useTheme"
-import { useRouter } from "next/router"
-import { Search as SearchIcon, Sun } from "react-feather"
+import { Sun } from "react-feather"
 import { styled, A, Text, IconButton, Grid } from "./theme"
-import debounce from "lodash/debounce"
 import SearchPreview from "./search-preview"
 import Search from "./search"
 
-const Container = styled(Grid, {
+const HeaderWrapper = styled.div({
+  position: "relative"
+})
+
+const HeaderContainer = styled(Grid, {
   mt: 0,
   mb: "$5",
   gridTemplateColumns: "1fr repeat(4, auto)",
@@ -25,8 +27,8 @@ export default function Header() {
   const { toggle } = useTheme()
 
   return (
-    <div style={{ position: "relative" }}>
-      <Container>
+    <HeaderWrapper>
+      <HeaderContainer>
         <Search>
           <Text variant="ui">
             <b>My Content Site</b>
@@ -35,8 +37,8 @@ export default function Header() {
         <IconButton onClick={toggle} aria-label="Toggle Theme">
           <Sun size={20} />
         </IconButton>
-      </Container>
+      </HeaderContainer>
       <SearchPreview />
-    </div>
+    </HeaderWrapper>
   )
 }

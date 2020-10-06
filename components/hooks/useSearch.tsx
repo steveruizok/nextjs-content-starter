@@ -14,11 +14,21 @@ export const state = createState({
     closed: {
       on: {
         TOGGLED_OPEN: { to: "open" }
+      },
+      initial: "idle",
+      states: {
+        idle: {},
+        loading: {
+          on: {
+            ROUTE_CHANGED: { to: "idle" }
+          }
+        }
       }
     },
     open: {
       on: {
-        TOGGLED_OPEN: { to: "closed" }
+        TOGGLED_OPEN: { to: "closed" },
+        DISMISSED: { to: "closed" }
       },
       initial: {
         if: "inputValueIsEmpty",
@@ -70,7 +80,13 @@ export const state = createState({
               },
               states: {
                 noPredictions: {},
-                hasPredictions: {}
+                hasPredictions: {
+                  on: {
+                    SELECTED_PREDICTION: {
+                      to: "loading"
+                    }
+                  }
+                }
               }
             }
           }
@@ -108,6 +124,8 @@ export const state = createState({
   }
 })
 
+router.events.on("routeChangeComplete", () => state.send("ROUTE_CHANGED"))
+
 export default function useSearch() {
   const local = useStateDesigner(state)
 
@@ -115,4 +133,4 @@ export default function useSearch() {
 }
 
 // --- Debugging
-// state.onUpdate(update => console.log(update.active))
+// state.onUpdate((update) => console.log(update.active))

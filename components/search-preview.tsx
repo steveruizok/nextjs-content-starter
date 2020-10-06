@@ -24,7 +24,7 @@ export default function SearchPreview() {
               <Link href={result.url} passHref>
                 <SearchPreviewLink
                   tabIndex={i + 2}
-                  onClick={() => local.send("TOGGLED_OPEN")}
+                  onClick={() => local.send("SELECTED_PREDICTION")}
                   aria-label={result.title}
                 >
                   <Text variant="label">{result.category}</Text>

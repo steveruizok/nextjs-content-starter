@@ -21,7 +21,6 @@ export const Span = styled("span", {
 
 export const Container = styled("div", {
   maxWidth: 720,
-  position: "relative",
   margin: "0px auto",
   p: "$1",
   sm: {
@@ -425,6 +424,13 @@ export const IconButton = styled(Button, {
     "&:hover": {
       bg: "$hover",
       color: "$accent"
+    }
+  },
+  variants: {
+    animation: {
+      fadeIn: {
+        animation: ".25s ease-in 0s 1 forwards both running fadeIn"
+      }
     }
   }
 })

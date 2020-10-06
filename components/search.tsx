@@ -5,6 +5,115 @@ import useTheme from "./hooks/useTheme"
 import useSearch, { state } from "./hooks/useSearch"
 import { Search as SearchIcon, X, Loader, ChevronRight } from "react-feather"
 
+export default function Search({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme()
+
+  const local = useSearch()
+  const isOpen = local.isIn("open")
+
+  return (
+    <Container>
+      <Link href="/" aria-label="Home">
+        <Lockup
+          mode={theme === "dark" ? "dark" : "light"}
+          state={isOpen ? "open" : "closed"}
+        >
+          {children /* Site icon or title*/}
+        </Lockup>
+      </Link>
+      <SearchForm
+        onSubmit={(e) => {
+          e.preventDefault()
+          state.send("SUBMITTED_QUERY")
+        }}
+        state={isOpen ? "open" : "closed"}
+      >
+        <SearchIcon size={20} />
+        <SearchInput />
+      </SearchForm>
+      {local.whenIn({
+        searching: <LoadingIcon />,
+        loading: <LoadingIcon />,
+        full: <SubmitButton />
+      })}
+      <ToggleButton isOpen={isOpen} />
+    </Container>
+  )
+}
+
+function LoadingIcon() {
+  return (
+    <LoaderWrapper>
+      <Loader size={20} stroke="var(--colors-accent)" />
+    </LoaderWrapper>
+  )
+}
+
+function SubmitButton() {
+  return (
+    <IconButton
+      onClick={() => state.send("SUBMITTED_SEARCH")}
+      aria-label="Submit Search"
+      animation="fadeIn"
+    >
+      <ChevronRight size={20} />
+    </IconButton>
+  )
+}
+
+function ToggleButton({ isOpen }: { isOpen: boolean }) {
+  return (
+    <IconButton
+      onClick={() => state.send("TOGGLED_OPEN")}
+      aria-label="Toggle Search"
+    >
+      {isOpen ? <X size={20} /> : <SearchIcon size={20} />}
+    </IconButton>
+  )
+}
+
+function SearchInput() {
+  const rFocused = useRef(false)
+  const rInput = useRef<HTMLInputElement>()
+  const local = useSearch()
+  const isOpen = local.isIn("open")
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => rInput.current?.focus(), 200)
+    }
+  }, [isOpen])
+
+  function handleFocus() {
+    rFocused.current = true
+  }
+
+  function handleBlur() {
+    rFocused.current = false
+    setTimeout(() => {
+      if (local.isIn("open") && rFocused.current === false) {
+        local.send("DISMISSED")
+      }
+    }, 200)
+  }
+
+  return (
+    <Input
+      ref={rInput}
+      placeholder="Search"
+      autoCorrect="false"
+      spellCheck="false"
+      tabIndex={1}
+      value={local.data.inputValue}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onChange={(e) => {
+        state.send("CHANGED_INPUT_VALUE", e.currentTarget.value)
+      }}
+    />
+  )
+}
+
 const Container = styled.div({
   display: "grid",
   gridTemplateColumns: "auto 1fr",
@@ -74,11 +183,13 @@ const SearchForm = styled.form({
 })
 
 const LoaderWrapper = styled.div({
-  height: "fit-content",
-  width: "fit-content",
-  display: "inline",
-  opacity: 0,
-  animation: ".25s ease-in .12s 1 forwards both running fadeIn",
+  height: 48,
+  width: 48,
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  opacity: 1,
+  animation: ".25s ease-in 0s 1 forwards both running fadeIn",
   "& > *": {
     animation: "2s linear 0s infinite forwards both running rotate"
   }
@@ -97,70 +208,3 @@ const Input = styled("input", {
   px: "$2",
   caretColor: "$accent"
 })
-
-export default function Search({ children }: { children: React.ReactNode }) {
-  const local = useSearch()
-  const { theme } = useTheme()
-  const isOpen = local.isIn("open")
-  const rInput = useRef<HTMLInputElement>()
-
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => rInput.current?.focus(), 200)
-    }
-  }, [isOpen])
-
-  return (
-    <Container>
-      <Link href="/" aria-label="Home">
-        <Lockup
-          mode={theme === "dark" ? "dark" : "light"}
-          state={isOpen ? "open" : "closed"}
-        >
-          {children}
-        </Lockup>
-      </Link>
-      <SearchForm
-        onSubmit={(e) => {
-          e.preventDefault()
-          state.send("SUBMITTED_QUERY")
-        }}
-        state={isOpen ? "open" : "closed"}
-      >
-        <SearchIcon size={20} />
-        <Input
-          ref={rInput}
-          placeholder="Search"
-          autoCorrect="false"
-          spellCheck="false"
-          tabIndex={1}
-          value={local.data.inputValue}
-          onChange={(e) =>
-            state.send("CHANGED_INPUT_VALUE", e.currentTarget.value)
-          }
-        />
-        {local.isInAny("full", "searching") && (
-          <IconButton
-            onClick={() => local.send("SUBMITTED_SEARCH")}
-            aria-label="Submit Search"
-          >
-            {local.whenIn({
-              searching: (
-                <LoaderWrapper>
-                  <Loader size={20} stroke="var(--colors-accent)" />
-                </LoaderWrapper>
-              ),
-              full: <ChevronRight size={20} />
-            })}
-          </IconButton>
-        )}
-      </SearchForm>
-      <IconButton
-        onClick={() => state.send("TOGGLED_OPEN")}
-        aria-label="Toggle Search"
-      >
-        {isOpen ? <X size={20} /> : <SearchIcon size={20} />}
-      </IconButton>
-    </Container>
-  )
-}

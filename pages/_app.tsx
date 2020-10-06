@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Container } from "../components/theme"
 import Head from "next/head"
+import "../components/theme/styles.css"
 import { state as searchState } from "../components/hooks/useSearch"
 
 function MyApp({ Component, pageProps }) {
@@ -8,15 +9,6 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    function handleClick() {
-      searchState.send("DISMISSED")
-    }
-
-    document.body.addEventListener("click", handleClick)
-    return () => document.body.addEventListener("click", handleClick)
   }, [])
 
   return (
