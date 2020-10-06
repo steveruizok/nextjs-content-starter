@@ -19,12 +19,12 @@ export interface FrontMatter {
 
 export interface PostLite {
   title: string
+  date: number
   category: string
   status: string
   terms: string[]
   url: string
   readingTime: ReadingTime
-  date: number
   author: string
 }
 
